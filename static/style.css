@@ -21,6 +21,8 @@ body {
     width: 100%;
     max-width: 400px;
     color: white;
+    position: relative;
+    z-index: 1;
 }
 
 /* Display */
@@ -96,12 +98,18 @@ button:active {
 /* Slide-in history panel */
 .history-panel {
     position: fixed;
-    right: -260px;
     top: 0;
+    right: -260px;
     width: 260px;
     height: 100%;
-    background: #111;
     padding: 15px;
+
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border-left: 1px solid rgba(255,255,255,0.1);
+
     transition: right 0.3s ease;
     overflow-y: auto;
     z-index: 1000;
@@ -114,14 +122,21 @@ button:active {
 .history-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .clear-history {
     background: transparent;
     border: none;
-    color: red;
+    color: #ff4d4d;
     cursor: pointer;
+    font-size: 14px;
+}
+.clear-history:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .history-list div {
@@ -142,4 +157,18 @@ button:active {
         font-size: 18px;
     }
 
+}
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
 }

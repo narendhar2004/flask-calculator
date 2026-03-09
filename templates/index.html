@@ -88,15 +88,19 @@ historyToggle.addEventListener("click", function () {
 clearHistoryBtn.addEventListener("click", function (event) {
 
 event.preventDefault();
+if(historyData.length === 0) return;
 
 if (confirm("Clear all calculation history?")) {
 
 historyData = [];
 historyList.innerHTML = "";
-
+updateClearButtonState();
 }
 
 });
+function updateClearButtonState() {
+    clearHistoryBtn.disabled = historyData.length === 0;
+}
 
 
 // Render History
@@ -121,6 +125,7 @@ historyPanel.style.display = "none";
 historyList.appendChild(div);
 
 });
+updateClearButtonState();
 
 }
 
