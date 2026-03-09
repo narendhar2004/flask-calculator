@@ -1,0 +1,132 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    background: linear-gradient(135deg, #1f4037, #99f2c8);
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.calculator {
+    background: #222;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+    width: 320px;
+    text-align: center;
+    color: white;
+}
+
+.display {
+    background: #eaeaea;
+    width: 100%;
+    height: 65px;
+    margin-bottom: 28px;
+    font-weight: bold;
+    text-align: right;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    overflow: hidden;
+    transition: font-size 0.2s ease;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+}
+
+button {
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #444;
+    color: white;
+    transition: all 0.1s ease;
+}
+
+button:hover {
+    background: #666;
+}
+
+button:active {
+    transform: scale(0.95);
+    background: #888;
+}
+
+.full-width {
+    grid-column: span 4;
+}
+
+.equal {
+    background: #00c853;
+    font-size: 20px;
+}
+
+.equal:hover {
+    background: #00e676;
+}
+
+.result {
+    margin-top: 15px;
+    font-size: 18px;
+    color: #00ffcc;
+}
+
+.operator {
+    background: #ff9500;
+    color: white;
+}
+
+.operator:hover {
+    background: #ffad33;
+}
+
+.history-icon {
+    float: right;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.history-panel {
+    display: none;
+    background: #111;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    text-align: right;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.clear-history {
+    background: transparent;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+}
+
+.history-list div {
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.history-list div:hover {
+    color: white;
+}
