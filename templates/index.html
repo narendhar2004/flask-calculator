@@ -81,6 +81,7 @@ const closeHistory = document.getElementById("closeHistory");
 
 closeHistory.addEventListener("click", function () {
     historyPanel.classList.remove("open");
+    overlay.classList.remove("active");
 });
 
 const overlay = document.getElementById("overlay");
@@ -94,13 +95,6 @@ overlay.addEventListener("click", function () {
     historyPanel.classList.remove("open");
     overlay.classList.remove("active");
 });
-
-
-// Toggle History Panel
-historyToggle.addEventListener("click", function () {
-    historyPanel.classList.toggle("open");
-});
-
 
 // Clear History
 clearHistoryBtn.addEventListener("click", function (event) {
@@ -136,7 +130,8 @@ div.addEventListener("click", function () {
 
 display.value = item.result;
 adjustFontSize();
-historyPanel.style.display = "none";
+historyPanel.classList.remove("open");
+overlay.classList.remove("active");
 
 });
 
