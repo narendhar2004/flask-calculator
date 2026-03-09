@@ -10,7 +10,7 @@
 <body>
 
 <div class="calculator">
-
+<div id="overlay" class="overlay"></div>
 <h2>
 Simple Calculator
 <span id="historyToggle" class="history-icon">🕘</span>
@@ -23,6 +23,7 @@ Simple Calculator
 <div id="historyPanel" class="history-panel">
 
 <div class="history-header">
+    <span id="closeHistory" class="close-history">←</span>
 History
 <button type="button" id="clearHistory" class="clear-history">Clear</button>
 </div>
@@ -76,6 +77,23 @@ const operators = "+-*/";
 let historyData = [];
 
 adjustFontSize();
+const closeHistory = document.getElementById("closeHistory");
+
+closeHistory.addEventListener("click", function () {
+    historyPanel.classList.remove("open");
+});
+
+const overlay = document.getElementById("overlay");
+
+historyToggle.addEventListener("click", function () {
+    historyPanel.classList.toggle("open");
+    overlay.classList.toggle("active");
+});
+
+overlay.addEventListener("click", function () {
+    historyPanel.classList.remove("open");
+    overlay.classList.remove("active");
+});
 
 
 // Toggle History Panel
