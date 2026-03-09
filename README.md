@@ -55,7 +55,7 @@ flask-calculator/
 Clone the repository:
 
 ```
-git clone https://github.com/YOUR_USERNAME/flask-calculator.git
+git clone https://github.com/narendhar2004/flask-calculator.git
 ```
 
 Navigate to the project folder:
