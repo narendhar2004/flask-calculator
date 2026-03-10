@@ -88,6 +88,7 @@ button:active {
 /* Equal button */
 .equal {
     background: #00c853;
+    font-size: 22px; 
 }
 
 .equal:hover {
