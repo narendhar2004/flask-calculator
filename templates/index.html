@@ -11,6 +11,7 @@
 
 <div class="calculator">
 <div id="overlay" class="overlay"></div>
+
 <h2>
 Simple Calculator
 <span id="historyToggle" class="history-icon">🕘</span>
@@ -23,7 +24,7 @@ Simple Calculator
 <div id="historyPanel" class="history-panel">
 
 <div class="history-header">
-    <span id="closeHistory" class="close-history">←</span>
+<span id="closeHistory" class="close-history">←</span>
 History
 <button type="button" id="clearHistory" class="clear-history">Clear</button>
 </div>
@@ -34,24 +35,27 @@ History
 
 <div class="buttons">
 
+<!-- Added Backspace Button -->
+<button type="button" class="backspace" onclick="deleteLast()">⌫</button>
 <button type="button" onclick="addToDisplay('7')">7</button>
 <button type="button" onclick="addToDisplay('8')">8</button>
 <button type="button" onclick="addToDisplay('9')">9</button>
-<button type="button" class="operator" onclick="addToDisplay('/')">/</button>
 
+<button type="button" class="operator" onclick="addToDisplay('/')">/</button>
 <button type="button" onclick="addToDisplay('4')">4</button>
 <button type="button" onclick="addToDisplay('5')">5</button>
 <button type="button" onclick="addToDisplay('6')">6</button>
-<button type="button" class="operator" onclick="addToDisplay('*')">*</button>
 
+<button type="button" class="operator" onclick="addToDisplay('*')">*</button>
 <button type="button" onclick="addToDisplay('1')">1</button>
 <button type="button" onclick="addToDisplay('2')">2</button>
 <button type="button" onclick="addToDisplay('3')">3</button>
-<button type="button" class="operator" onclick="addToDisplay('-')">-</button>
 
+<button type="button" class="operator" onclick="addToDisplay('-')">-</button>
 <button type="button" onclick="clearDisplay()">C</button>
 <button type="button" onclick="addToDisplay('0')">0</button>
 <button type="button" onclick="addToDisplay('.')">.</button>
+
 <button type="button" class="operator" onclick="addToDisplay('+')">+</button>
 
 <button type="button" class="equal full-width" onclick="calculate()">=</button>
@@ -59,7 +63,6 @@ History
 </div>
 
 </form>
-
 </div>
 
 <script>
@@ -71,30 +74,31 @@ const historyPanel = document.getElementById("historyPanel");
 const historyToggle = document.getElementById("historyToggle");
 const historyList = document.getElementById("history");
 const clearHistoryBtn = document.getElementById("clearHistory");
+const overlay = document.getElementById("overlay");
 
 const operators = "+-*/";
 
 let historyData = [];
 
 adjustFontSize();
+
 const closeHistory = document.getElementById("closeHistory");
 
 closeHistory.addEventListener("click", function () {
-    historyPanel.classList.remove("open");
-    overlay.classList.remove("active");
+historyPanel.classList.remove("open");
+overlay.classList.remove("active");
 });
 
-const overlay = document.getElementById("overlay");
-
 historyToggle.addEventListener("click", function () {
-    historyPanel.classList.toggle("open");
-    overlay.classList.toggle("active");
+historyPanel.classList.toggle("open");
+overlay.classList.toggle("active");
 });
 
 overlay.addEventListener("click", function () {
-    historyPanel.classList.remove("open");
-    overlay.classList.remove("active");
+historyPanel.classList.remove("open");
+overlay.classList.remove("active");
 });
+
 
 // Clear History
 clearHistoryBtn.addEventListener("click", function (event) {
@@ -110,8 +114,9 @@ updateClearButtonState();
 }
 
 });
+
 function updateClearButtonState() {
-    clearHistoryBtn.disabled = historyData.length === 0;
+clearHistoryBtn.disabled = historyData.length === 0;
 }
 
 
@@ -138,6 +143,7 @@ overlay.classList.remove("active");
 historyList.appendChild(div);
 
 });
+
 updateClearButtonState();
 
 }
@@ -179,6 +185,16 @@ if(lastNumber.includes(".")) return;
 }
 
 display.value += value;
+
+adjustFontSize();
+
+};
+
+
+// Backspace Button Function
+window.deleteLast = function(){
+
+display.value = display.value.slice(0,-1);
 
 adjustFontSize();
 
@@ -256,14 +272,14 @@ if(allowedKeys.includes(key)){
 event.preventDefault();
 
 const currentValue = display.value;
-
 const lastChar = currentValue.slice(-1);
 
 if(!isNaN(key)){
 
 display.value += key;
 
-}else if(operators.includes(key)){
+}
+else if(operators.includes(key)){
 
 if(currentValue === "" && key !== "-") return;
 
@@ -271,7 +287,8 @@ if(operators.includes(lastChar)) return;
 
 display.value += key;
 
-}else if(key === "."){
+}
+else if(key === "."){
 
 display.value += key;
 
@@ -284,7 +301,6 @@ adjustFontSize();
 else if(key === "Enter"){
 
 event.preventDefault();
-
 calculate();
 
 }
@@ -292,19 +308,14 @@ calculate();
 else if(key === "Backspace"){
 
 event.preventDefault();
-
-display.value = display.value.slice(0, -1);
-
-adjustFontSize();
+deleteLast();
 
 }
 
 else if(key === "Escape"){
 
 event.preventDefault();
-
 display.value = "";
-
 adjustFontSize();
 
 }

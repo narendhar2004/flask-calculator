@@ -75,6 +75,16 @@ button:active {
     background: #ffa733;
 }
 
+/* Backspace button */
+.backspace {
+    background: #555;
+    font-weight: bold;
+}
+
+.backspace:hover {
+    background: #777;
+}
+
 /* Equal button */
 .equal {
     background: #00c853;
@@ -126,6 +136,8 @@ button:active {
     margin-bottom: 10px;
     font-weight: bold;
 }
+
+/* Close arrow */
 .close-history {
     cursor: pointer;
     font-size: 18px;
@@ -135,6 +147,8 @@ button:active {
 .close-history:hover {
     color: #ccc;
 }
+
+/* Clear history button */
 .clear-history {
     background: transparent;
     border: none;
@@ -142,14 +156,32 @@ button:active {
     cursor: pointer;
     font-size: 14px;
 }
+
 .clear-history:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
+/* History items */
 .history-list div {
     margin-bottom: 8px;
     cursor: pointer;
+}
+
+/* Overlay when history is open */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
 }
 
 /* Mobile adjustments */
@@ -165,18 +197,4 @@ button:active {
         font-size: 18px;
     }
 
-}
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.35);
-    backdrop-filter: blur(3px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-}
-
-.overlay.active {
-    opacity: 1;
-    pointer-events: all;
 }
