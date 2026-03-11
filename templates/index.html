@@ -14,6 +14,7 @@
 
 <h2>
 Simple Calculator
+<span id="scientificToggle" class="mode-icon">🧮</span>
 <span id="historyToggle" class="history-icon">🕘</span>
 </h2>
 
@@ -30,6 +31,25 @@ History
 </div>
 
 <div id="history" class="history-list"></div>
+
+</div>
+
+<div id="scientificPanel" class="scientific-panel">
+
+<button type="button" onclick="addToDisplay('sin(')">sin</button>
+<button type="button" onclick="addToDisplay('cos(')">cos</button>
+<button type="button" onclick="addToDisplay('tan(')">tan</button>
+<button type="button" onclick="addToDisplay('sqrt(')">√</button>
+
+<button type="button" onclick="addToDisplay('**2')">x²</button>
+<button type="button" onclick="addToDisplay('**3')">x³</button>
+<button type="button" onclick="addToDisplay('log(')">log</button>
+<button type="button" onclick="addToDisplay('ln(')">ln</button>
+
+<button type="button" onclick="addToDisplay('pi')">π</button>
+<button type="button" onclick="addToDisplay('e')">e</button>
+<button type="button" onclick="addToDisplay('(')">(</button>
+<button type="button" onclick="addToDisplay(')')">)</button>
 
 </div>
 
@@ -75,7 +95,12 @@ const historyToggle = document.getElementById("historyToggle");
 const historyList = document.getElementById("history");
 const clearHistoryBtn = document.getElementById("clearHistory");
 const overlay = document.getElementById("overlay");
+const scientificToggle = document.getElementById("scientificToggle");
+const scientificPanel = document.getElementById("scientificPanel");
 
+scientificToggle.addEventListener("click", function () {
+    scientificPanel.classList.toggle("open");
+});
 const operators = "+-*/";
 
 let historyData = [];

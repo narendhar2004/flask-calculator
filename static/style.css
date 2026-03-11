@@ -199,3 +199,19 @@ button:active {
     }
 
 }
+
+.scientific-panel {
+    display: none;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.scientific-panel.open {
+    display: grid;
+}
+
+.mode-icon {
+    cursor: pointer;
+    margin-right: 10px;
+}
