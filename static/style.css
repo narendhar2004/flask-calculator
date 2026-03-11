@@ -38,6 +38,7 @@ body {
     border-radius: 10px;
     outline: none;
     transition: font-size 0.2s ease;
+    margin-bottom: 12px;
 }
 
 /* Buttons grid */
@@ -201,14 +202,20 @@ button:active {
 }
 
 .scientific-panel {
-    display: none;
+    display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
+
+    max-height: 0;
+    overflow: hidden;
+
+    transition: max-height 0.35s ease;
+
     margin-bottom: 12px;
 }
 
 .scientific-panel.open {
-    display: grid;
+    max-height: 300px;
 }
 
 .mode-icon {
