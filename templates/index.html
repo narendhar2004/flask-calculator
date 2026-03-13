@@ -789,18 +789,39 @@ body::after {
   .display { font-size: 28px; }
   .expression-preview { font-size: 10px; margin-bottom: 4px; min-height: 14px; }
 
-  /* Scientific panel */
-  .scientific-panel { gap: 6px; }
-  .sci-btn { padding: 8px 4px; font-size: 11px; border-radius: 8px; }
-  .scientific-panel.open { max-height: 120px; margin-bottom: 0; }
+  /* Scientific panel — flex item, shares vertical space with buttons */
+  .scientific-panel {
+    gap: 6px;
+    flex-shrink: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), flex 0.35s ease;
+    margin-bottom: 0;
+    flex: 0;
+  }
 
-  /* Button grid — expands to fill ALL remaining vertical space */
+  .sci-btn {
+    padding: 0;
+    font-size: 12px;
+    border-radius: 8px;
+    height: 100%;
+    min-height: 32px;
+  }
+
+  .scientific-panel.open {
+    max-height: 200px;   /* large enough to never clip */
+    flex: 2;             /* sci panel gets 2 units of space */
+    margin-bottom: 0;
+    overflow: visible;
+  }
+
+  /* Button grid takes 5 units — so ratio is 5:2 when sci open */
   .buttons {
-    flex: 1;
-    min-height: 0;              /* must have this so flex shrinks it */
+    flex: 5;
+    min-height: 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(5, 1fr);  /* 5 equal rows */
+    grid-template-rows: repeat(5, 1fr);
     gap: 7px;
     align-content: stretch;
   }
@@ -899,7 +920,7 @@ body::after {
   .expression-preview { font-size: 9px; min-height: 12px; margin-bottom: 2px; }
 
   .buttons {
-    flex: 1; min-height: 0;
+    flex: 5; min-height: 0;
     grid-template-rows: repeat(5, 1fr);
     gap: 5px;
   }
@@ -909,8 +930,9 @@ body::after {
   .btn-op { font-size: 17px; }
   .btn-eq { font-size: 18px; }
 
-  .sci-btn { padding: 5px 3px; font-size: 10px; }
-  .scientific-panel.open { max-height: 80px; margin-bottom: 0; }
+  .sci-btn { padding: 0; font-size: 10px; height: 100%; min-height: 28px; }
+  .scientific-panel { flex: 0; max-height: 0; }
+  .scientific-panel.open { max-height: 200px; flex: 1.5; overflow: visible; margin-bottom: 0; }
 
   .history-panel {
     width: 240px; right: -240px;
@@ -1152,8 +1174,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   sciToggle.addEventListener("click", () => {
-    sciPanel.classList.toggle("open");
+    const isOpen = sciPanel.classList.toggle("open");
     sciToggle.classList.toggle("active");
+    document.querySelector('.calc-inner').classList.toggle("sci-open", isOpen);
   });
 
   historyToggle.addEventListener("click", () => {
