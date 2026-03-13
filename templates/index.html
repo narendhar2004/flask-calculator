@@ -701,11 +701,191 @@ body::after {
 
 .modal-btn:active { transform: scale(0.95); }
 
-/* ===================== MOBILE ===================== */
-@media(max-width:420px){
-  .calculator{padding:16px;border-radius:20px;}
-  .btn{height:56px;font-size:17px;}
-  .display{font-size:28px;}
+/* ===================== RESPONSIVE ===================== */
+
+/* --- Tablet (481px – 768px) --- */
+@media (min-width:481px) and (max-width:768px) {
+  body { padding: 24px; align-items: center; }
+  .calculator { max-width: 420px; padding: 26px; }
+  .btn { height: 68px; font-size: 20px; }
+  .display { font-size: 38px; }
+  .history-panel { width: 320px; }
+}
+
+/* --- Mobile (≤ 480px): full-screen card --- */
+@media (max-width:480px) {
+  body {
+    padding: 0;
+    align-items: flex-end;        /* card sits at bottom like a sheet */
+    background: #080c14;
+  }
+
+  /* Stretch the calculator to full width, fixed to bottom */
+  .calculator {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100dvh;           /* fill full dynamic viewport height */
+    border-radius: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+    border: none;
+    background: var(--surface);
+    animation: fadeSlideIn 0.5s ease 2.2s both;
+  }
+
+  /* Safe-area aware inner wrapper — holds display + buttons */
+  .calc-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px env(safe-area-inset-bottom, 16px);
+    overflow: hidden;
+  }
+
+  /* Header */
+  .header {
+    padding: env(safe-area-inset-top, 12px) 16px 0;
+    margin-bottom: 12px;
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  /* Slim top status bar accent line */
+  .header::before {
+    content: '';
+    display: block;
+    height: env(safe-area-inset-top, 0px);
+  }
+
+  .header-logo-text { font-size: 13px; }
+  .header-logo-icon { width: 24px; height: 24px; }
+  .icon-btn { width: 36px; height: 36px; font-size: 15px; }
+
+  /* Display */
+  .display-wrap {
+    min-height: 80px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+  }
+
+  .display { font-size: 32px; }
+  .expression-preview { font-size: 11px; }
+
+  /* Scientific panel */
+  .sci-btn { padding: 10px 4px; font-size: 11px; }
+  .scientific-panel.open { max-height: 160px; margin-bottom: 10px; }
+
+  /* Button grid — fill remaining height evenly */
+  .buttons {
+    flex: 1;
+    gap: 8px;
+    grid-template-rows: repeat(5, 1fr);
+    align-content: stretch;
+  }
+
+  .btn {
+    height: auto;               /* let grid rows control height */
+    min-height: 52px;
+    font-size: 20px;
+    border-radius: 12px;
+    touch-action: manipulation; /* remove 300ms tap delay */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-util { font-size: 16px; }
+  .btn-op   { font-size: 22px; }
+  .btn-eq   { font-size: 26px; }
+
+  /* History panel — full width bottom sheet on mobile */
+  .history-panel {
+    width: 100%;
+    right: auto;
+    left: 0;
+    bottom: -100%;
+    top: auto;
+    height: 70dvh;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    border-radius: 24px 24px 0 0;
+    padding: 20px 20px env(safe-area-inset-bottom, 20px);
+    transition: bottom 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .history-panel.open { bottom: 0; right: auto; }
+
+  /* Pull handle for bottom sheet */
+  .history-panel::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    margin: 0 auto 16px;
+  }
+
+  /* Modal adjusts for small screens */
+  .modal { padding: 24px 20px 20px; border-radius: 20px; }
+  .modal-icon { width: 48px; height: 48px; font-size: 20px; }
+  .modal-title { font-size: 15px; }
+  .modal-message { font-size: 12px; }
+  .modal-btn { height: 40px; font-size: 13px; }
+}
+
+/* --- Small phones (≤ 360px) --- */
+@media (max-width:360px) {
+  .display { font-size: 26px; }
+  .btn { font-size: 18px; min-height: 46px; }
+  .btn-op { font-size: 20px; }
+  .btn-eq { font-size: 22px; }
+  .sci-btn { font-size: 10px; padding: 8px 2px; }
+  .buttons { gap: 6px; }
+}
+
+/* --- Landscape mobile (height ≤ 500px) --- */
+@media (max-height:500px) and (max-width:900px) {
+  body { align-items: center; padding: 8px 16px; }
+
+  .calculator {
+    min-height: unset;
+    border-radius: 20px;
+    max-width: 480px;
+    padding: 12px 16px;
+  }
+
+  .header { padding: 0; margin-bottom: 8px; position: static; }
+  .header::before { display: none; }
+
+  .display-wrap { min-height: 56px; padding: 8px 14px; margin-bottom: 8px; }
+  .display { font-size: 24px; }
+  .expression-preview { font-size: 10px; margin-bottom: 2px; min-height: 14px; }
+
+  .buttons { gap: 6px; }
+  .btn { height: 44px; font-size: 16px; min-height: unset; border-radius: 10px; }
+  .btn-util { font-size: 13px; }
+  .btn-op { font-size: 18px; }
+  .btn-eq { font-size: 20px; }
+
+  .sci-btn { padding: 8px 4px; font-size: 11px; }
+  .scientific-panel.open { max-height: 110px; }
+
+  /* History slides from right in landscape */
+  .history-panel {
+    width: 260px; height: 100%;
+    left: auto; right: -260px; bottom: auto; top: 0;
+    border-radius: 0;
+    border-top: none;
+    border-left: 1px solid var(--border);
+    transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .history-panel::before { display: none; }
+  .history-panel.open { right: 0; bottom: auto; }
 }
 
 </style>
@@ -782,10 +962,9 @@ body::after {
 <div class="calculator">
   <div id="overlay" class="overlay"></div>
 
+  <!-- HEADER — sticky on mobile -->
   <div class="header">
-    <!-- Header logo (icon + wordmark) -->
     <div class="header-logo">
-      <!-- Mini app icon -->
       <svg class="header-logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="h-bg" x1="0" y1="0" x2="1" y2="1">
@@ -814,60 +993,65 @@ body::after {
         <div class="header-logo-underline"></div>
       </div>
     </div>
-
     <div class="header-icons">
       <span id="scientificToggle" class="icon-btn" title="Scientific">∑</span>
       <span id="historyToggle" class="icon-btn" title="History">⟳</span>
     </div>
   </div>
 
-  <div class="display-wrap">
-    <div class="expression-preview" id="expressionPreview"></div>
-    <input id="display" type="text" name="expression" class="display" value="{{ expression }}" placeholder="0" autocomplete="off" readonly>
-  </div>
+  <!-- INNER CONTENT — scrollable/flex on mobile -->
+  <div class="calc-inner">
 
-  <div id="scientificPanel" class="scientific-panel">
-    <button type="button" class="sci-btn" onclick="addToDisplay('sin(')">sin</button>
-    <button type="button" class="sci-btn" onclick="addToDisplay('cos(')">cos</button>
-    <button type="button" class="sci-btn" onclick="addToDisplay('tan(')">tan</button>
-    <button type="button" class="sci-btn" onclick="addToDisplay('sqrt(')">√x</button>
-    <button type="button" class="sci-btn" onclick="addToDisplay('**2')">x²</button>
-    <button type="button" class="sci-btn" onclick="addToDisplay('**3')">x³</button>
-    <button type="button" class="sci-btn" onclick="addToDisplay('log(')">log</button>
-    <button type="button" class="sci-btn" onclick="addToDisplay('ln(')">ln</button>
-    <button type="button" class="sci-btn" onclick="addToDisplay('pi')">π</button>
-    <button type="button" class="sci-btn" onclick="addToDisplay('e')">e</button>
-    <button type="button" class="sci-btn" onclick="addToDisplay('(')">(</button>
-    <button type="button" class="sci-btn" onclick="addToDisplay(')')">)</button>
-  </div>
+    <div class="display-wrap">
+      <div class="expression-preview" id="expressionPreview"></div>
+      <input id="display" type="text" name="expression" class="display" value="{{ expression }}" placeholder="0" autocomplete="off" readonly>
+    </div>
 
-  <div class="buttons">
-    <button type="button" class="btn btn-util" onclick="deleteLast()">⌫</button>
-    <button type="button" class="btn btn-util" onclick="clearDisplay()">C</button>
-    <button type="button" class="btn btn-util" onclick="addToDisplay('%')">%</button>
-    <button type="button" class="btn btn-op" onclick="addToDisplay('/')">÷</button>
+    <div id="scientificPanel" class="scientific-panel">
+      <button type="button" class="sci-btn" onclick="addToDisplay('sin(')">sin</button>
+      <button type="button" class="sci-btn" onclick="addToDisplay('cos(')">cos</button>
+      <button type="button" class="sci-btn" onclick="addToDisplay('tan(')">tan</button>
+      <button type="button" class="sci-btn" onclick="addToDisplay('sqrt(')">√x</button>
+      <button type="button" class="sci-btn" onclick="addToDisplay('**2')">x²</button>
+      <button type="button" class="sci-btn" onclick="addToDisplay('**3')">x³</button>
+      <button type="button" class="sci-btn" onclick="addToDisplay('log(')">log</button>
+      <button type="button" class="sci-btn" onclick="addToDisplay('ln(')">ln</button>
+      <button type="button" class="sci-btn" onclick="addToDisplay('pi')">π</button>
+      <button type="button" class="sci-btn" onclick="addToDisplay('e')">e</button>
+      <button type="button" class="sci-btn" onclick="addToDisplay('(')">(</button>
+      <button type="button" class="sci-btn" onclick="addToDisplay(')')">)</button>
+    </div>
 
-    <button type="button" class="btn" onclick="addToDisplay('7')">7</button>
-    <button type="button" class="btn" onclick="addToDisplay('8')">8</button>
-    <button type="button" class="btn" onclick="addToDisplay('9')">9</button>
-    <button type="button" class="btn btn-op" onclick="addToDisplay('*')">×</button>
+    <div class="buttons">
+      <button type="button" class="btn btn-util" onclick="deleteLast()">⌫</button>
+      <button type="button" class="btn btn-util" onclick="clearDisplay()">C</button>
+      <button type="button" class="btn btn-util" onclick="addToDisplay('%')">%</button>
+      <button type="button" class="btn btn-op" onclick="addToDisplay('/')">÷</button>
 
-    <button type="button" class="btn" onclick="addToDisplay('4')">4</button>
-    <button type="button" class="btn" onclick="addToDisplay('5')">5</button>
-    <button type="button" class="btn" onclick="addToDisplay('6')">6</button>
-    <button type="button" class="btn btn-op" onclick="addToDisplay('-')">−</button>
+      <button type="button" class="btn" onclick="addToDisplay('7')">7</button>
+      <button type="button" class="btn" onclick="addToDisplay('8')">8</button>
+      <button type="button" class="btn" onclick="addToDisplay('9')">9</button>
+      <button type="button" class="btn btn-op" onclick="addToDisplay('*')">×</button>
 
-    <button type="button" class="btn" onclick="addToDisplay('1')">1</button>
-    <button type="button" class="btn" onclick="addToDisplay('2')">2</button>
-    <button type="button" class="btn" onclick="addToDisplay('3')">3</button>
-    <button type="button" class="btn btn-op" onclick="addToDisplay('+')">+</button>
+      <button type="button" class="btn" onclick="addToDisplay('4')">4</button>
+      <button type="button" class="btn" onclick="addToDisplay('5')">5</button>
+      <button type="button" class="btn" onclick="addToDisplay('6')">6</button>
+      <button type="button" class="btn btn-op" onclick="addToDisplay('-')">−</button>
 
-    <button type="button" class="btn" onclick="addToDisplay('0')">0</button>
-    <button type="button" class="btn" onclick="addToDisplay('00')">00</button>
-    <button type="button" class="btn" onclick="addToDisplay('.')">.</button>
-    <button type="button" class="btn btn-eq" onclick="calculate()">=</button>
-  </div>
+      <button type="button" class="btn" onclick="addToDisplay('1')">1</button>
+      <button type="button" class="btn" onclick="addToDisplay('2')">2</button>
+      <button type="button" class="btn" onclick="addToDisplay('3')">3</button>
+      <button type="button" class="btn btn-op" onclick="addToDisplay('+')">+</button>
 
+      <button type="button" class="btn" onclick="addToDisplay('0')">0</button>
+      <button type="button" class="btn" onclick="addToDisplay('00')">00</button>
+      <button type="button" class="btn" onclick="addToDisplay('.')">.</button>
+      <button type="button" class="btn btn-eq" onclick="calculate()">=</button>
+    </div>
+
+  </div><!-- /.calc-inner -->
+
+  <!-- HISTORY PANEL (bottom sheet on mobile, side drawer on desktop) -->
   <div id="historyPanel" class="history-panel">
     <div class="history-header">
       <span id="closeHistory" class="close-history">←</span>
@@ -878,7 +1062,7 @@ body::after {
     <div id="historyEmpty" class="history-empty">No calculations yet</div>
   </div>
 
-  <!-- Custom Confirm Modal -->
+  <!-- CONFIRM MODAL -->
   <div class="modal-backdrop" id="confirmModal">
     <div class="modal">
       <div class="modal-icon">🗑️</div>
