@@ -2,360 +2,1064 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Flask Calculator</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<title>CALC — Flask Calculator</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23141c2e'/%3E%3Cstop offset='100%25' stop-color='%230d1420'/%3E%3C/linearGradient%3E%3ClinearGradient id='gl' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2322d3a5' stop-opacity='0.9'/%3E%3Cstop offset='100%25' stop-color='%231ab88f' stop-opacity='0.4'/%3E%3C/linearGradient%3E%3Cfilter id='neon'%3E%3CfeGaussianBlur stdDeviation='1.5' result='g'/%3E%3CfeMerge%3E%3CfeMergeNode in='g'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Crect x='4' y='4' width='92' height='92' rx='22' fill='url(%23bg)' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3Cpath d='M50 13 Q87 13 87 50' stroke='url(%23gl)' stroke-width='5' fill='none' stroke-linecap='round' opacity='0.85'/%3E%3Crect x='20' y='18' width='60' height='64' rx='13' fill='%230f1825' stroke='rgba(34,211,165,0.18)' stroke-width='1'/%3E%3Crect x='26' y='24' width='48' height='18' rx='5' fill='%230a1018'/%3E%3Crect x='26' y='48' width='20' height='13' rx='4' fill='%23d8d8e8' opacity='0.82'/%3E%3Crect x='50' y='48' width='20' height='13' rx='4' fill='%23d8d8e8' opacity='0.82'/%3E%3Crect x='26' y='65' width='20' height='13' rx='4' fill='%23d8d8e8' opacity='0.62'/%3E%3Crect x='50' y='65' width='20' height='13' rx='4' fill='%2322d3a5' filter='url(%23neon)'/%3E%3Crect x='54' y='70' width='12' height='2' rx='1' fill='%230a1018'/%3E%3Crect x='54' y='74' width='12' height='2' rx='1' fill='%230a1018'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23141c2e'/%3E%3Cstop offset='100%25' stop-color='%230d1420'/%3E%3C/linearGradient%3E%3ClinearGradient id='gl' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2322d3a5' stop-opacity='0.9'/%3E%3Cstop offset='100%25' stop-color='%231ab88f' stop-opacity='0.4'/%3E%3C/linearGradient%3E%3Cfilter id='neon'%3E%3CfeGaussianBlur stdDeviation='1.5' result='g'/%3E%3CfeMerge%3E%3CfeMergeNode in='g'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Crect x='4' y='4' width='92' height='92' rx='22' fill='url(%23bg)' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3Cpath d='M50 13 Q87 13 87 50' stroke='url(%23gl)' stroke-width='5' fill='none' stroke-linecap='round' opacity='0.85'/%3E%3Crect x='20' y='18' width='60' height='64' rx='13' fill='%230f1825' stroke='rgba(34,211,165,0.18)' stroke-width='1'/%3E%3Crect x='26' y='24' width='48' height='18' rx='5' fill='%230a1018'/%3E%3Crect x='26' y='48' width='20' height='13' rx='4' fill='%23d8d8e8' opacity='0.82'/%3E%3Crect x='50' y='48' width='20' height='13' rx='4' fill='%23d8d8e8' opacity='0.82'/%3E%3Crect x='26' y='65' width='20' height='13' rx='4' fill='%23d8d8e8' opacity='0.62'/%3E%3Crect x='50' y='65' width='20' height='13' rx='4' fill='%2322d3a5' filter='url(%23neon)'/%3E%3Crect x='54' y='70' width='12' height='2' rx='1' fill='%230a1018'/%3E%3Crect x='54' y='74' width='12' height='2' rx='1' fill='%230a1018'/%3E%3C/svg%3E">
+<style>
 
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #1a1a24;
+  --surface3: #22222e;
+  --border: rgba(255,255,255,0.06);
+  --text: #e8e8f0;
+  --text-muted: #6b6b80;
+  --accent: #7c5cff;
+  --accent2: #c084fc;
+  --green: #22d3a5;
+  --green-glow: rgba(34,211,165,0.3);
+  --orange: #ff8c42;
+  --orange-glow: rgba(255,140,66,0.3);
+  --red: #ff4d6d;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+/* ===================== PRELOADER ===================== */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: #080c14;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+#preloader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Radial glow behind icon */
+.preloader-glow {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34,211,165,0.12) 0%, rgba(124,92,255,0.08) 50%, transparent 75%);
+  filter: blur(20px);
+  animation: glow-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%,100% { transform: scale(1); opacity: 0.7; }
+  50%      { transform: scale(1.15); opacity: 1; }
+}
+
+.preloader-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: icon-drop 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;
+}
+
+@keyframes icon-drop {
+  from { opacity:0; transform: scale(0.4) translateY(30px); }
+  to   { opacity:1; transform: scale(1) translateY(0); }
+}
+
+.preloader-icon-svg {
+  width: 100px;
+  height: 100px;
+  filter: drop-shadow(0 0 18px rgba(34,211,165,0.5)) drop-shadow(0 0 40px rgba(34,211,165,0.2));
+  position: relative;
+  z-index: 1;
+}
+
+/* Spinning ring around icon */
+.preloader-ring {
+  position: absolute;
+  width: 126px;
+  height: 126px;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  border-top-color: rgba(34,211,165,0.7);
+  border-right-color: rgba(34,211,165,0.2);
+  animation: spin 1.4s linear infinite;
+  z-index: 0;
+}
+
+.preloader-ring-2 {
+  position: absolute;
+  width: 142px;
+  height: 142px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  border-bottom-color: rgba(124,92,255,0.5);
+  border-left-color: rgba(124,92,255,0.15);
+  animation: spin-rev 2s linear infinite;
+  z-index: 0;
+}
+
+@keyframes spin     { to { transform: rotate(360deg); } }
+@keyframes spin-rev { to { transform: rotate(-360deg); } }
+
+.preloader-logo-svg {
+  animation: logo-rise 0.5s ease 0.5s both;
+}
+
+@keyframes logo-rise {
+  from { opacity:0; transform: translateY(10px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.preloader-bar-wrap {
+  width: 180px;
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 99px;
+  overflow: hidden;
+  animation: logo-rise 0.4s ease 0.7s both;
+}
+
+.preloader-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #22d3a5, #7c5cff);
+  border-radius: 99px;
+  animation: bar-fill 2s cubic-bezier(0.4,0,0.2,1) 0.7s forwards;
+  box-shadow: 0 0 12px rgba(34,211,165,0.6);
+}
+
+@keyframes bar-fill {
+  0%   { width: 0%; }
+  50%  { width: 70%; }
+  85%  { width: 92%; }
+  100% { width: 100%; }
+}
+
+.preloader-tagline {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: rgba(255,255,255,0.2);
+  animation: logo-rise 0.4s ease 0.9s both;
+}
+
+/* ===================== BODY ===================== */
+body {
+  background: var(--bg);
+  font-family: 'Outfit', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+body::before, body::after {
+  content:'';
+  position:fixed;
+  border-radius:50%;
+  filter:blur(80px);
+  pointer-events:none;
+  z-index:0;
+}
+body::before {
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(124,92,255,0.12),transparent 70%);
+  top:-100px;left:-100px;
+}
+body::after {
+  width:350px;height:350px;
+  background:radial-gradient(circle,rgba(34,211,165,0.08),transparent 70%);
+  bottom:-80px;right:-80px;
+}
+
+/* ===================== CALCULATOR ===================== */
+.calculator {
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width:380px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:28px;
+  padding:24px;
+  box-shadow:0 40px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.04),inset 0 1px 0 rgba(255,255,255,0.08);
+  animation:fadeSlideIn 0.6s cubic-bezier(0.34,1.2,0.64,1) 2.2s both;
+}
+
+@keyframes fadeSlideIn {
+  from{opacity:0;transform:translateY(20px) scale(0.97);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+
+/* ===================== HEADER ===================== */
+.header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+  padding:0 2px;
+}
+
+/* Logo in header */
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.header-logo-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(34,211,165,0.45));
+}
+
+.header-logo-wordmark {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.header-logo-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.22em;
+}
+
+.header-logo-underline {
+  height: 2px;
+  width: 100%;
+  margin-top: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #22d3a5, transparent);
+  box-shadow: 0 0 6px rgba(34,211,165,0.45);
+}
+
+.header-icons {
+  display:flex;
+  gap:8px;
+}
+
+.icon-btn {
+  width:34px;height:34px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  font-size:16px;
+  transition:all 0.2s ease;
+  color:var(--text-muted);
+  user-select:none;
+}
+
+.icon-btn:hover {
+  background:var(--surface3);
+  border-color:rgba(124,92,255,0.3);
+  color:var(--text);
+}
+
+.icon-btn.active {
+  background:rgba(124,92,255,0.15);
+  border-color:rgba(124,92,255,0.4);
+  color:var(--accent);
+}
+
+/* ===================== DISPLAY ===================== */
+.display-wrap {
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:16px 20px;
+  margin-bottom:16px;
+  min-height:90px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:flex-end;
+  overflow:hidden;
+  position:relative;
+}
+
+.display-wrap::before {
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(124,92,255,0.5),transparent);
+}
+
+.expression-preview {
+  font-family:'DM Mono',monospace;
+  font-size:12px;
+  color:var(--text-muted);
+  margin-bottom:6px;
+  min-height:18px;
+  text-align:right;
+  width:100%;
+  word-break:break-all;
+}
+
+.display {
+  background:transparent;
+  border:none;
+  outline:none;
+  width:100%;
+  font-family:'DM Mono',monospace;
+  font-size:36px;
+  font-weight:400;
+  color:var(--text);
+  text-align:right;
+  caret-color:var(--accent);
+  transition:font-size 0.15s ease;
+  letter-spacing:-0.02em;
+}
+
+.display::placeholder { color:var(--text-muted); }
+
+/* ===================== SCIENTIFIC ===================== */
+.scientific-panel {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1),margin 0.3s ease;
+  margin-bottom:0;
+}
+
+.scientific-panel.open {
+  max-height:200px;
+  margin-bottom:12px;
+}
+
+.sci-btn {
+  padding:12px 6px;
+  font-size:12px;
+  font-family:'DM Mono',monospace;
+  font-weight:500;
+  letter-spacing:0.02em;
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+  background:rgba(124,92,255,0.07);
+  color:var(--accent2);
+  transition:all 0.15s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.sci-btn:hover {
+  background:rgba(124,92,255,0.18);
+  border-color:rgba(124,92,255,0.3);
+  box-shadow:0 0 12px rgba(124,92,255,0.2);
+}
+
+.sci-btn:active { transform:scale(0.95); }
+
+/* ===================== BUTTONS ===================== */
+.buttons {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.btn {
+  height:64px;
+  font-family:'Outfit',sans-serif;
+  font-size:19px;
+  font-weight:400;
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+  background:var(--surface2);
+  color:var(--text);
+  transition:all 0.15s ease;
+  position:relative;
+  overflow:hidden;
+  letter-spacing:-0.01em;
+}
+
+.btn:hover {
+  background:var(--surface3);
+  border-color:rgba(255,255,255,0.1);
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+}
+
+.btn:active { transform:scale(0.95);box-shadow:none;background:var(--surface3); }
+
+.btn-util {
+  background:var(--surface3);
+  color:var(--text-muted);
+  font-size:15px;
+}
+
+.btn-util:hover { color:var(--text); }
+
+.btn-op {
+  background:rgba(255,140,66,0.08);
+  border-color:rgba(255,140,66,0.18);
+  color:var(--orange);
+  font-size:22px;
+}
+
+.btn-op:hover {
+  background:rgba(255,140,66,0.18);
+  border-color:var(--orange);
+  box-shadow:0 0 16px var(--orange-glow);
+}
+
+.btn-eq {
+  background:linear-gradient(145deg,#22d3a5,#1ab88f);
+  border-color:transparent;
+  color:#fff;
+  font-size:24px;
+  font-weight:600;
+  box-shadow:0 4px 20px var(--green-glow);
+}
+
+.btn-eq:hover {
+  background:linear-gradient(145deg,#2ae8b8,#1ecc9e);
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px var(--green-glow);
+}
+
+.btn-eq:active { transform:scale(0.95);box-shadow:0 2px 8px var(--green-glow); }
+
+/* Ripple */
+.ripple {
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,0.12);
+  width:60px;height:60px;
+  margin-left:-30px;margin-top:-30px;
+  pointer-events:none;
+  animation:ripple-anim 0.6s ease-out forwards;
+}
+
+@keyframes ripple-anim {
+  from{transform:scale(0);opacity:1;}
+  to{transform:scale(4);opacity:0;}
+}
+
+/* ===================== HISTORY PANEL ===================== */
+.history-panel {
+  position:fixed;
+  top:0;right:-300px;
+  width:280px;height:100%;
+  padding:24px 18px;
+  background:rgba(10,10,18,0.92);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-left:1px solid var(--border);
+  transition:right 0.35s cubic-bezier(0.4,0,0.2,1);
+  overflow-y:auto;
+  z-index:1000;
+}
+
+.history-panel.open { right:0; }
+
+.history-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+
+.history-title {
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.2em;
+  color:var(--text-muted);
+  text-transform:uppercase;
+}
+
+.close-history {
+  width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:8px;
+  cursor:pointer;
+  color:var(--text-muted);
+  font-size:14px;
+  transition:all 0.2s;
+}
+
+.close-history:hover {
+  background:var(--surface3);
+  color:var(--text);
+}
+
+.clear-history {
+  background: transparent;
+  border: 1px solid rgba(255,77,109,0.25);
+  border-radius: 8px;
+  color: var(--red);
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'Outfit', sans-serif;
+  padding: 5px 10px;
+  transition: all 0.2s;
+}
+
+.clear-history:hover { background: rgba(255,77,109,0.1); }
+.clear-history:disabled { opacity:0.3;cursor:not-allowed; }
+
+.history-empty {
+  text-align:center;
+  color:var(--text-muted);
+  font-size:13px;
+  margin-top:48px;
+  font-weight:200;
+  letter-spacing:0.05em;
+}
+
+.history-list div {
+  padding:12px 14px;
+  margin-bottom:8px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+
+.history-list div:hover {
+  background:var(--surface3);
+  border-color:rgba(124,92,255,0.25);
+  transform:translateX(-2px);
+}
+
+.h-expr {
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  color:var(--text-muted);
+  margin-bottom:4px;
+}
+
+.h-result {
+  font-family:'DM Mono',monospace;
+  font-size:18px;
+  color:var(--text);
+}
+
+/* ===================== OVERLAY ===================== */
+.overlay {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(4px);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.3s ease;
+  z-index:999;
+}
+
+.overlay.active { opacity:1;pointer-events:all; }
+
+/* ===================== CONFIRM MODAL ===================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-backdrop.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  background: #13131e;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 22px;
+  padding: 32px 28px 26px;
+  width: 300px;
+  max-width: 90vw;
+  text-align: center;
+  box-shadow:
+    0 0 0 1px rgba(124,92,255,0.12),
+    0 40px 80px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+  transform: translateY(16px) scale(0.97);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
+  opacity: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124,92,255,0.6), transparent);
+}
+
+.modal-backdrop.show .modal {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.modal-icon {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: rgba(255,77,109,0.1);
+  border: 1px solid rgba(255,77,109,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  font-size: 24px;
+}
+
+.modal-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.modal-message {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 26px;
+  font-weight: 300;
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.modal-btn {
+  height: 44px;
+  border-radius: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.18s ease;
+}
+
+.modal-btn-cancel {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.08);
+  color: var(--text-muted);
+}
+
+.modal-btn-cancel:hover {
+  background: rgba(255,255,255,0.09);
+  color: var(--text);
+}
+
+.modal-btn-confirm {
+  background: rgba(255,77,109,0.12);
+  border-color: rgba(255,77,109,0.3);
+  color: var(--red);
+}
+
+.modal-btn-confirm:hover {
+  background: rgba(255,77,109,0.22);
+  border-color: rgba(255,77,109,0.5);
+  box-shadow: 0 0 16px rgba(255,77,109,0.2);
+}
+
+.modal-btn:active { transform: scale(0.95); }
+
+/* ===================== MOBILE ===================== */
+@media(max-width:420px){
+  .calculator{padding:16px;border-radius:20px;}
+  .btn{height:56px;font-size:17px;}
+  .display{font-size:28px;}
+}
+
+</style>
+</head>
 <body>
 
+<!-- ========== PRELOADER ========== -->
+<div id="preloader">
+  <div class="preloader-glow"></div>
+
+  <div class="preloader-icon-wrap">
+    <div class="preloader-ring"></div>
+    <div class="preloader-ring-2"></div>
+    <!-- App Icon SVG (recreated from your image) -->
+    <svg class="preloader-icon-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="pl-bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#141c2e"/>
+          <stop offset="100%" stop-color="#0d1420"/>
+        </linearGradient>
+        <linearGradient id="pl-glow" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#22d3a5" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#1ab88f" stop-opacity="0.5"/>
+        </linearGradient>
+        <filter id="pl-blur">
+          <feGaussianBlur stdDeviation="2.5" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <filter id="pl-neon">
+          <feGaussianBlur stdDeviation="1.5" result="glow"/>
+          <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- Outer rounded square -->
+      <rect x="4" y="4" width="92" height="92" rx="22" fill="url(#pl-bg)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      <!-- Top-right neon glow edge -->
+      <path d="M52 14 Q86 14 86 48" stroke="url(#pl-glow)" stroke-width="3" fill="none" stroke-linecap="round" filter="url(#pl-blur)"/>
+      <!-- Inner calculator body -->
+      <rect x="20" y="18" width="60" height="64" rx="13" fill="#0f1825" stroke="rgba(34,211,165,0.18)" stroke-width="1"/>
+      <!-- Display bar -->
+      <rect x="26" y="24" width="48" height="18" rx="6" fill="#0a1018" stroke="rgba(34,211,165,0.12)" stroke-width="0.8"/>
+      <!-- 3 number keys -->
+      <rect x="26" y="48" width="20" height="14" rx="4" fill="#e8e8f0" opacity="0.82"/>
+      <rect x="50" y="48" width="20" height="14" rx="4" fill="#e8e8f0" opacity="0.82"/>
+      <rect x="26" y="66" width="20" height="14" rx="4" fill="#e8e8f0" opacity="0.62"/>
+      <!-- Equals key (neon) -->
+      <rect x="50" y="66" width="20" height="14" rx="4" fill="#22d3a5" filter="url(#pl-neon)"/>
+      <rect x="54" y="71" width="12" height="2" rx="1" fill="#0a1018"/>
+      <rect x="54" y="75" width="12" height="2" rx="1" fill="#0a1018"/>
+    </svg>
+  </div>
+
+  <!-- Logo wordmark -->
+  <svg class="preloader-logo-svg" width="110" height="36" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+    <text x="0" y="26" font-family="Outfit, sans-serif" font-size="26" font-weight="600"
+          letter-spacing="8" fill="#e8e8f0">CALC</text>
+    <rect x="0" y="31" width="110" height="2.5" rx="1.25"
+          fill="url(#logo-line-grad)"/>
+    <defs>
+      <linearGradient id="logo-line-grad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#22d3a5"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <div class="preloader-bar-wrap">
+    <div class="preloader-bar"></div>
+  </div>
+  <div class="preloader-tagline">LOADING CALCULATOR</div>
+</div>
+
+<!-- ========== CALCULATOR ========== -->
 <div class="calculator">
-<div id="overlay" class="overlay"></div>
+  <div id="overlay" class="overlay"></div>
 
-<h2>
-Simple Calculator
-<span id="scientificToggle" class="mode-icon">🧮</span>
-<span id="historyToggle" class="history-icon">🕘</span>
-</h2>
+  <div class="header">
+    <!-- Header logo (icon + wordmark) -->
+    <div class="header-logo">
+      <!-- Mini app icon -->
+      <svg class="header-logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="h-bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#1a2235"/>
+            <stop offset="100%" stop-color="#111825"/>
+          </linearGradient>
+          <linearGradient id="h-glow" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#22d3a5" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#1ab88f" stop-opacity="0.4"/>
+          </linearGradient>
+          <filter id="h-neon"><feGaussianBlur stdDeviation="1" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <rect x="4" y="4" width="92" height="92" rx="22" fill="url(#h-bg)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <path d="M50 13 Q87 13 87 50" stroke="url(#h-glow)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <rect x="20" y="18" width="60" height="64" rx="13" fill="#0f1825" stroke="rgba(34,211,165,0.15)" stroke-width="0.8"/>
+        <rect x="26" y="24" width="48" height="18" rx="5" fill="#0a1018" stroke="rgba(34,211,165,0.1)" stroke-width="0.6"/>
+        <rect x="26" y="48" width="20" height="13" rx="4" fill="#d8d8e8" opacity="0.8"/>
+        <rect x="50" y="48" width="20" height="13" rx="4" fill="#d8d8e8" opacity="0.8"/>
+        <rect x="26" y="65" width="20" height="13" rx="4" fill="#d8d8e8" opacity="0.6"/>
+        <rect x="50" y="65" width="20" height="13" rx="4" fill="#22d3a5" filter="url(#h-neon)"/>
+        <rect x="54" y="70" width="12" height="1.8" rx="0.9" fill="#0a1018"/>
+        <rect x="54" y="74" width="12" height="1.8" rx="0.9" fill="#0a1018"/>
+      </svg>
+      <div class="header-logo-wordmark">
+        <span class="header-logo-text">CALC</span>
+        <div class="header-logo-underline"></div>
+      </div>
+    </div>
 
-<form>
+    <div class="header-icons">
+      <span id="scientificToggle" class="icon-btn" title="Scientific">∑</span>
+      <span id="historyToggle" class="icon-btn" title="History">⟳</span>
+    </div>
+  </div>
 
-<input id="display" type="text" name="expression" class="display" value="{{ expression }}">
+  <div class="display-wrap">
+    <div class="expression-preview" id="expressionPreview"></div>
+    <input id="display" type="text" name="expression" class="display" value="{{ expression }}" placeholder="0" autocomplete="off" readonly>
+  </div>
 
-<div id="historyPanel" class="history-panel">
+  <div id="scientificPanel" class="scientific-panel">
+    <button type="button" class="sci-btn" onclick="addToDisplay('sin(')">sin</button>
+    <button type="button" class="sci-btn" onclick="addToDisplay('cos(')">cos</button>
+    <button type="button" class="sci-btn" onclick="addToDisplay('tan(')">tan</button>
+    <button type="button" class="sci-btn" onclick="addToDisplay('sqrt(')">√x</button>
+    <button type="button" class="sci-btn" onclick="addToDisplay('**2')">x²</button>
+    <button type="button" class="sci-btn" onclick="addToDisplay('**3')">x³</button>
+    <button type="button" class="sci-btn" onclick="addToDisplay('log(')">log</button>
+    <button type="button" class="sci-btn" onclick="addToDisplay('ln(')">ln</button>
+    <button type="button" class="sci-btn" onclick="addToDisplay('pi')">π</button>
+    <button type="button" class="sci-btn" onclick="addToDisplay('e')">e</button>
+    <button type="button" class="sci-btn" onclick="addToDisplay('(')">(</button>
+    <button type="button" class="sci-btn" onclick="addToDisplay(')')">)</button>
+  </div>
 
-<div class="history-header">
-<span id="closeHistory" class="close-history">←</span>
-History
-<button type="button" id="clearHistory" class="clear-history">Clear</button>
-</div>
+  <div class="buttons">
+    <button type="button" class="btn btn-util" onclick="deleteLast()">⌫</button>
+    <button type="button" class="btn btn-util" onclick="clearDisplay()">C</button>
+    <button type="button" class="btn btn-util" onclick="addToDisplay('%')">%</button>
+    <button type="button" class="btn btn-op" onclick="addToDisplay('/')">÷</button>
 
-<div id="history" class="history-list"></div>
+    <button type="button" class="btn" onclick="addToDisplay('7')">7</button>
+    <button type="button" class="btn" onclick="addToDisplay('8')">8</button>
+    <button type="button" class="btn" onclick="addToDisplay('9')">9</button>
+    <button type="button" class="btn btn-op" onclick="addToDisplay('*')">×</button>
 
-</div>
+    <button type="button" class="btn" onclick="addToDisplay('4')">4</button>
+    <button type="button" class="btn" onclick="addToDisplay('5')">5</button>
+    <button type="button" class="btn" onclick="addToDisplay('6')">6</button>
+    <button type="button" class="btn btn-op" onclick="addToDisplay('-')">−</button>
 
-<div id="scientificPanel" class="scientific-panel">
+    <button type="button" class="btn" onclick="addToDisplay('1')">1</button>
+    <button type="button" class="btn" onclick="addToDisplay('2')">2</button>
+    <button type="button" class="btn" onclick="addToDisplay('3')">3</button>
+    <button type="button" class="btn btn-op" onclick="addToDisplay('+')">+</button>
 
-<button type="button" onclick="addToDisplay('sin(')">sin</button>
-<button type="button" onclick="addToDisplay('cos(')">cos</button>
-<button type="button" onclick="addToDisplay('tan(')">tan</button>
-<button type="button" onclick="addToDisplay('sqrt(')">√</button>
+    <button type="button" class="btn" onclick="addToDisplay('0')">0</button>
+    <button type="button" class="btn" onclick="addToDisplay('00')">00</button>
+    <button type="button" class="btn" onclick="addToDisplay('.')">.</button>
+    <button type="button" class="btn btn-eq" onclick="calculate()">=</button>
+  </div>
 
-<button type="button" onclick="addToDisplay('**2')">x²</button>
-<button type="button" onclick="addToDisplay('**3')">x³</button>
-<button type="button" onclick="addToDisplay('log(')">log</button>
-<button type="button" onclick="addToDisplay('ln(')">ln</button>
+  <div id="historyPanel" class="history-panel">
+    <div class="history-header">
+      <span id="closeHistory" class="close-history">←</span>
+      <span class="history-title">History</span>
+      <button type="button" id="clearHistory" class="clear-history" disabled>Clear</button>
+    </div>
+    <div id="history" class="history-list"></div>
+    <div id="historyEmpty" class="history-empty">No calculations yet</div>
+  </div>
 
-<button type="button" onclick="addToDisplay('pi')">π</button>
-<button type="button" onclick="addToDisplay('e')">e</button>
-<button type="button" onclick="addToDisplay('(')">(</button>
-<button type="button" onclick="addToDisplay(')')">)</button>
+  <!-- Custom Confirm Modal -->
+  <div class="modal-backdrop" id="confirmModal">
+    <div class="modal">
+      <div class="modal-icon">🗑️</div>
+      <div class="modal-title">Clear History</div>
+      <div class="modal-message">This will permanently delete all your calculation history. This action cannot be undone.</div>
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-cancel" id="modalCancel">Cancel</button>
+        <button class="modal-btn modal-btn-confirm" id="modalConfirm">Clear All</button>
+      </div>
+    </div>
+  </div>
 
-</div>
-
-<div class="buttons">
-
-<button type="button" class="backspace" onclick="deleteLast()">⌫</button>
-<button type="button" onclick="clearDisplay()">C</button>
-<button type="button" onclick="addToDisplay('%')">%</button>
-<button type="button" class="operator" onclick="addToDisplay('/')">/</button>
-
-<button type="button" onclick="addToDisplay('7')">7</button>
-<button type="button" onclick="addToDisplay('8')">8</button>
-<button type="button" onclick="addToDisplay('9')">9</button>
-<button type="button" class="operator" onclick="addToDisplay('*')">*</button>
-
-<button type="button" onclick="addToDisplay('4')">4</button>
-<button type="button" onclick="addToDisplay('5')">5</button>
-<button type="button" onclick="addToDisplay('6')">6</button>
-<button type="button" class="operator" onclick="addToDisplay('-')">-</button>
-
-<button type="button" onclick="addToDisplay('1')">1</button>
-<button type="button" onclick="addToDisplay('2')">2</button>
-<button type="button" onclick="addToDisplay('3')">3</button>
-<button type="button" class="operator" onclick="addToDisplay('+')">+</button>
-
-<button type="button" onclick="addToDisplay('0')">0</button>
-<button type="button" onclick="addToDisplay('00')">00</button>
-<button type="button" onclick="addToDisplay('.')">.</button>
-<button type="button" class="equal" onclick="calculate()">=</button>
-
-</div>
-
-</form>
 </div>
 
 <script>
+// ── Preloader dismiss ──────────────────────────────────────────
+window.addEventListener("load", function () {
+  setTimeout(() => {
+    document.getElementById("preloader").classList.add("hidden");
+  }, 2100);
+});
 
+// ── Calculator logic ───────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", function () {
 
-const display = document.getElementById("display");
-const historyPanel = document.getElementById("historyPanel");
-const historyToggle = document.getElementById("historyToggle");
-const historyList = document.getElementById("history");
-const clearHistoryBtn = document.getElementById("clearHistory");
-const overlay = document.getElementById("overlay");
-const scientificToggle = document.getElementById("scientificToggle");
-const scientificPanel = document.getElementById("scientificPanel");
-
-scientificToggle.addEventListener("click", function () {
-    scientificPanel.classList.toggle("open");
-});
-const operators = "+-*/";
-
-let historyData = [];
-
-adjustFontSize();
-
-const closeHistory = document.getElementById("closeHistory");
-
-closeHistory.addEventListener("click", function () {
-historyPanel.classList.remove("open");
-overlay.classList.remove("active");
-});
-
-historyToggle.addEventListener("click", function () {
-historyPanel.classList.toggle("open");
-overlay.classList.toggle("active");
-});
-
-overlay.addEventListener("click", function () {
-historyPanel.classList.remove("open");
-overlay.classList.remove("active");
-});
-
-
-// Clear History
-clearHistoryBtn.addEventListener("click", function (event) {
-
-event.preventDefault();
-if(historyData.length === 0) return;
-
-if (confirm("Clear all calculation history?")) {
-
-historyData = [];
-historyList.innerHTML = "";
-updateClearButtonState();
-}
-
-});
-
-function updateClearButtonState() {
-clearHistoryBtn.disabled = historyData.length === 0;
-}
-
-
-// Render History
-function renderHistory() {
-
-historyList.innerHTML = "";
-
-historyData.forEach(item => {
-
-const div = document.createElement("div");
-
-div.textContent = `${item.expression} = ${item.result}`;
-
-div.addEventListener("click", function () {
-
-display.value = item.result;
-adjustFontSize();
-historyPanel.classList.remove("open");
-overlay.classList.remove("active");
-
-});
-
-historyList.appendChild(div);
-
-});
-
-updateClearButtonState();
-
-}
-
-
-// Auto Font Resize
-function adjustFontSize() {
-
-const maxFontSize = 28;
-const minFontSize = 14;
-
-display.style.fontSize = maxFontSize + "px";
-
-while (
-display.scrollWidth > display.clientWidth &&
-parseFloat(display.style.fontSize) > minFontSize
-) {
-
-display.style.fontSize =
-(parseFloat(display.style.fontSize) - 1) + "px";
-
-}
-
-}
-
-
-// Add Number / Operator
-window.addToDisplay = function(value){
-
-const currentValue = display.value;
-
-if(value === "."){
-
-const parts = currentValue.split(/[\+\-\*\/]/);
-const lastNumber = parts[parts.length - 1];
-
-if(lastNumber.includes(".")) return;
-
-}
-
-display.value += value;
-
-adjustFontSize();
-
-};
-
-
-// Backspace Button Function
-window.deleteLast = function(){
-
-display.value = display.value.slice(0,-1);
-
-adjustFontSize();
-
-};
-
-
-// Clear Display
-window.clearDisplay = function(){
-
-display.value = "";
-
-adjustFontSize();
-
-};
-
-
-// Calculate (AJAX)
-window.calculate = function(){
-
-fetch("/calculate", {
-
-method: "POST",
-
-headers: {
-"Content-Type": "application/json"
-},
-
-body: JSON.stringify({
-expression: display.value
-})
-
-})
-
-.then(response => response.json())
-
-.then(data => {
-
-if(data.result !== undefined){
-
-historyData.push({
-
-expression: display.value,
-result: data.result
+  const display      = document.getElementById("display");
+  const preview      = document.getElementById("expressionPreview");
+  const historyPanel = document.getElementById("historyPanel");
+  const historyToggle= document.getElementById("historyToggle");
+  const historyList  = document.getElementById("history");
+  const historyEmpty = document.getElementById("historyEmpty");
+  const clearHistoryBtn = document.getElementById("clearHistory");
+  const overlay      = document.getElementById("overlay");
+  const sciToggle    = document.getElementById("scientificToggle");
+  const sciPanel     = document.getElementById("scientificPanel");
+  const closeHistory = document.getElementById("closeHistory");
+  const operators    = "+-*/";
+  let historyData    = [];
+
+  adjustFontSize();
+
+  // Ripple effect
+  document.querySelectorAll('.btn, .sci-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const r = document.createElement('span');
+      r.classList.add('ripple');
+      const rect = btn.getBoundingClientRect();
+      r.style.left = (e.clientX - rect.left) + 'px';
+      r.style.top  = (e.clientY - rect.top)  + 'px';
+      btn.appendChild(r);
+      setTimeout(() => r.remove(), 600);
+    });
+  });
+
+  sciToggle.addEventListener("click", () => {
+    sciPanel.classList.toggle("open");
+    sciToggle.classList.toggle("active");
+  });
+
+  historyToggle.addEventListener("click", () => {
+    historyPanel.classList.toggle("open");
+    overlay.classList.toggle("active");
+    historyToggle.classList.toggle("active");
+  });
+
+  closeHistory.addEventListener("click", closeHistoryPanel);
+  overlay.addEventListener("click", closeHistoryPanel);
+
+  function closeHistoryPanel() {
+    historyPanel.classList.remove("open");
+    overlay.classList.remove("active");
+    historyToggle.classList.remove("active");
+  }
+
+  // Custom confirm modal
+  const confirmModal = document.getElementById("confirmModal");
+  const modalCancel  = document.getElementById("modalCancel");
+  const modalConfirm = document.getElementById("modalConfirm");
+
+  function showConfirmModal() { confirmModal.classList.add("show"); }
+  function hideConfirmModal() { confirmModal.classList.remove("show"); }
+
+  modalCancel.addEventListener("click", hideConfirmModal);
+  confirmModal.addEventListener("click", e => { if (e.target === confirmModal) hideConfirmModal(); });
+
+  modalConfirm.addEventListener("click", () => {
+    historyData = [];
+    renderHistory();
+    hideConfirmModal();
+  });
+
+  clearHistoryBtn.addEventListener("click", e => {
+    e.preventDefault();
+    if (!historyData.length) return;
+    showConfirmModal();
+  });
+
+  function renderHistory() {
+    historyList.innerHTML = "";
+    historyEmpty.style.display = historyData.length === 0 ? 'block' : 'none';
+    clearHistoryBtn.disabled = historyData.length === 0;
+    [...historyData].reverse().forEach(item => {
+      const div = document.createElement("div");
+      div.innerHTML = `<div class="h-expr">${item.expression}</div><div class="h-result">= ${item.result}</div>`;
+      div.addEventListener("click", () => {
+        display.value = item.result;
+        adjustFontSize();
+        closeHistoryPanel();
+      });
+      historyList.appendChild(div);
+    });
+  }
+
+  renderHistory();
+
+  function adjustFontSize() {
+    const max = 36, min = 14;
+    display.style.fontSize = max + "px";
+    while (display.scrollWidth > display.clientWidth && parseFloat(display.style.fontSize) > min) {
+      display.style.fontSize = (parseFloat(display.style.fontSize) - 1) + "px";
+    }
+  }
+
+  window.addToDisplay = function(value) {
+    if (value === ".") {
+      const parts = display.value.split(/[\+\-\*\/]/);
+      if (parts[parts.length - 1].includes(".")) return;
+    }
+    display.value += value;
+    adjustFontSize();
+  };
+
+  window.deleteLast  = function() { display.value = display.value.slice(0, -1); adjustFontSize(); };
+  window.clearDisplay = function() { display.value = ""; preview.textContent = ""; adjustFontSize(); };
+
+  window.calculate = function() {
+    const expr = display.value;
+    if (!expr) return;
+    preview.textContent = expr + " =";
+    fetch("/calculate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ expression: expr })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.result !== undefined) {
+        historyData.push({ expression: expr, result: data.result });
+        renderHistory();
+        display.value = data.result;
+        adjustFontSize();
+      } else {
+        display.value = "Error";
+        preview.textContent = "";
+      }
+    })
+    .catch(() => { display.value = "Error"; preview.textContent = ""; });
+  };
+
+  document.addEventListener("keydown", function(e) {
+    const key = e.key;
+    if ("0123456789".includes(key)) {
+      e.preventDefault(); display.value += key; adjustFontSize();
+    } else if (operators.includes(key)) {
+      e.preventDefault();
+      const cur = display.value, last = cur.slice(-1);
+      if (cur === "" && key !== "-") return;
+      if (operators.includes(last)) return;
+      display.value += key; adjustFontSize();
+    } else if (key === ".") {
+      e.preventDefault(); addToDisplay(".");
+    } else if (key === "Enter" || key === "=") {
+      e.preventDefault(); calculate();
+    } else if (key === "Backspace") {
+      e.preventDefault(); deleteLast();
+    } else if (key === "Escape") {
+      e.preventDefault(); clearDisplay();
+    }
+  });
 
 });
-
-renderHistory();
-
-display.value = data.result;
-
-adjustFontSize();
-
-}
-
-})
-
-.catch(() => {
-
-display.value = "Error";
-
-});
-
-};
-
-
-// Keyboard Support
-document.addEventListener("keydown", function(event){
-
-const key = event.key;
-
-const allowedKeys = "0123456789+-*/.";
-
-if(allowedKeys.includes(key)){
-
-event.preventDefault();
-
-const currentValue = display.value;
-const lastChar = currentValue.slice(-1);
-
-if(!isNaN(key)){
-
-display.value += key;
-
-}
-else if(operators.includes(key)){
-
-if(currentValue === "" && key !== "-") return;
-
-if(operators.includes(lastChar)) return;
-
-display.value += key;
-
-}
-else if(key === "."){
-
-display.value += key;
-
-}
-
-adjustFontSize();
-
-}
-
-else if(key === "Enter"){
-
-event.preventDefault();
-calculate();
-
-}
-
-else if(key === "Backspace"){
-
-event.preventDefault();
-deleteLast();
-
-}
-
-else if(key === "Escape"){
-
-event.preventDefault();
-display.value = "";
-adjustFontSize();
-
-}
-
-else{
-
-event.preventDefault();
-
-}
-
-});
-
-});
-
 </script>
-
 </body>
 </html>
